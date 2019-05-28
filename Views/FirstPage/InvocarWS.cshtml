@@ -1,0 +1,48 @@
+@page
+@model app.Models.Provider
+@{
+    ViewBag.Title = "InvocarWS";
+    <!-- var entidades = ViewBag.Entidades; -->
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "";
+    <!-- var valueEntidade = " ";
+    var test = ""; -->
+}
+
+<script language="C#" runat="server">
+
+      void btnValida_Click(Object sender, EventArgs e) 
+      {
+
+        test = Request.Form["tabelaEscolhida"];
+        alert(test);
+      }
+
+      void Button_Click(Object Sender, EventArgs e) 
+      {
+         Label1.Text = Server.HtmlEncode(Text1.Text);
+      }
+
+</script>
+
+<head runat="server">
+<h2>Invocar Web Service existente</h2>
+</head>
+
+<body>
+
+<div>
+  <form id="validaURL" runat="server">
+    URL: <input type="text" id="url" placeholder="Web Service URL here" runat="server"/>
+    <input type="submit" id="btnValida" Text="Submit" value="Validar" onserverclick="btnValida_Click"/>
+  </form>
+</div> 
+
+<form>
+  <select asp-for="selected_table_name" asp-items="Model.table_names">
+      <option>Select one</option>
+  </select>
+
+</form>
+
+</body>
