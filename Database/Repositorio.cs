@@ -21,27 +21,25 @@ namespace app.Database
         }
 
         
-    public List<string> getTableNames()
-    {
-        List<string> table_names = new List<string>();
+        public List<string> getTableNames()
+        {
+            List<string> table_names = new List<string>();
 
-        using (MySqlConnection conn = GetConnection())  
-    {  
-        conn.Open();  
-        MySqlCommand cmd = new MySqlCommand("SELECT table_name FROM information_schema.tables where table_schema='projeto'", conn);  
-  
-        using (var reader = cmd.ExecuteReader())  
+            using (MySqlConnection conn = GetConnection())  
         {  
-            while (reader.Read())  
+            conn.Open();  
+            MySqlCommand cmd = new MySqlCommand("SELECT table_name FROM information_schema.tables where table_schema='projeto'", conn);  
+    
+            using (var reader = cmd.ExecuteReader())  
             {  
-                table_names.Add(  
-
-                    reader["table_name"].ToString());    
-
+                while (reader.Read())  
+                {  
+                    var val = reader["table_name"].ToString();
+                    table_names.Add(  val);
+                }  
             }  
         }  
-    }  
-    return table_names;  
-    }    
+        return table_names;  
+        }    
     }    
 }  

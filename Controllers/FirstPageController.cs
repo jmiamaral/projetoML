@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using app.Models;
 using app.Database;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace app.Controllers
 {
@@ -12,6 +14,7 @@ namespace app.Controllers
     public class FirstPageController : Controller
     {
         Repositorio rep;
+        Provider pro;
         //GET: FirstPage/InvocarWS
         // public ActionResult InvocarWS()
         // {
@@ -36,38 +39,31 @@ namespace app.Controllers
         public ActionResult InvocarWS()
         {
             // setDbRep();
-            // var model = new Provider();
-            // model.table_names = rep.getTableNames();
-            //List<Provider> entidades = new List<Provider>();
-            // entidades = context.getTableNames();
-            // ViewBag.Entidades = model;
-            
-            // return View(model);
-            // setDbContext();
-
-            // List<Provider> entidades = new List<Provider>();
-            // entidades = context.getTableNames();
-
-            // return View(entidades);
+            // pro = new Provider();
+            // pro.table_names = rep.getTableNames();
+            // ViewBag.Entidades = new SelectList(pro.table_names);
+            listTableNames();
             return View();
         }
-        
+        [HttpGet]
         public ActionResult listTableNames()
         {
             setDbRep();
-            var model = new Provider();
-            model.table_names = rep.getTableNames();
+            pro = new Provider();
+            pro.table_names = rep.getTableNames();
             //List<Provider> entidades = new List<Provider>();
             // entidades = context.getTableNames();
-            // ViewBag.Entidades = model;
-
-            return View(model);
+            ViewBag.Entidades = new SelectList(pro.table_names);
+            // var result = new SelectList(model.table_names);
+            return View();
         }
-        // [HttpPost]
-        // public ActionResult (Provider model)
-        // {
-        //     return View();
-        // }
+        [HttpPost]
+        public ActionResult listTableName(Provider model)
+        {
+            var selected_table = model.selected_table_name;
+            ViewBag.selected_tabela = selected_table;
+            return View();
+        }
 
         /* public ActionResult Edit(int id)
         {
