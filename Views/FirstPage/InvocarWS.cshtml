@@ -14,8 +14,8 @@
       void btnValida_Click(Object sender, EventArgs e) 
       {
 
-        test = Request.Form["tabelaEscolhida"];
-        alert(ViewBag.selected_tabela);
+        test = Request.Form["selected_table_name"].toString();
+        alert("@ViewBag.selected_tabela");
       }
 
       void Button_Click(Object Sender, EventArgs e) 
@@ -25,6 +25,7 @@
 
 </script>
 
+
 <head runat="server">
 <h2>@ViewBag.Title</h2>
 </head>
@@ -33,19 +34,17 @@
 
 <div>
   <form id="validaURL" runat="server">
-    
-    URL: <input type="text" id="url" placeholder="Web Service URL here"/>
+    <label class="control-label">URL:</label>
+    <input type="text" id="url" placeholder="Web Service URL here"/>
     <input type="submit" id="btnValida" Text="Submit" value="Validate" onserverclick="btnValida_Click"/>
   </form>
 </div> 
 
-<div>
-  <form>
-    Entidade: <select asp-for="selected_table_name" asp-items="@ViewBag.Entidades">
-        <option>Select entity</option>
-    </select>
-
-  </form>
-  <p>@ViewBag.selected_tabela</p>
+<div class="form-group">
+  <label class="control-label">Entity</label>
+  <select asp-for="selected_table_name" asp-items="@ViewBag.Entidades">
+    <option>Select entity</option>
+  </select>
+<p>@ViewBag.selected_tabela</p>
 </div>
 </body>

@@ -41,5 +41,26 @@ namespace app.Database
         }  
         return table_names;  
         }    
+        
+        public List<string> getDbData(String value)
+        {
+            List<string> data = new List<string>();
+
+            using (MySqlConnection conn = GetConnection())  
+        {  
+            conn.Open();  
+            MySqlCommand cmd = new MySqlCommand("SELECT * FROM " + value, conn);  
+    
+            using (var reader = cmd.ExecuteReader())  
+            {  
+                while (reader.Read())  
+                {  
+                    var val = reader["table_name"].ToString();
+                    data.Add(val);
+                }  
+            }  
+        }  
+        return data;  
+        }    
     }    
 }  

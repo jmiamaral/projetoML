@@ -15,22 +15,8 @@ namespace app.Controllers
     {
         Repositorio rep;
         Provider pro;
-        //GET: FirstPage/InvocarWS
-        // public ActionResult InvocarWS()
-        // {
-
-            // FirstPageContext context = HttpContext.RequestServices.GetService(typeof(app.Models.FirstPageContext)) as FirstPageContext;  
-            // List<Provider> list = context.getTableNames();
-            // return View(list); 
-            // return View();
-            //var first_page = new FirstPage() {Id = 10, String1 = "valor1", String2 = "valor2"};
-            
-            //return View(first_page);
-            //return Content("Helllo World"); //retorna o conteudo explicito
-            //return new EmptyResult(); //retorna pagina em branco
-            //return RedirectToAction("Index", "Home", new { page = 1, sortby = "name"});
-        // }
-        void setDbRep()
+        
+        public void setDbRep()
         {
             if (rep == null)
                 rep = HttpContext.RequestServices.GetService(typeof(Repositorio)) as Repositorio;
@@ -38,28 +24,28 @@ namespace app.Controllers
 
         public ActionResult InvocarWS()
         {
-            // setDbRep();
-            // pro = new Provider();
-            // pro.table_names = rep.getTableNames();
-            // ViewBag.Entidades = new SelectList(pro.table_names);
+            pro = new Provider();
+
             listTableNames();
+            // getTableName(pro);
             return View();
         }
-        [HttpGet]
+
         public ActionResult listTableNames()
         {
             setDbRep();
-            pro = new Provider();
             pro.table_names = rep.getTableNames();
             //List<Provider> entidades = new List<Provider>();
-            // entidades = context.getTableNames();
+            // entidades = rep.getTableNames();
             ViewBag.Entidades = new SelectList(pro.table_names);
             // var result = new SelectList(model.table_names);
             return View();
         }
         [HttpPost]
-        public ActionResult listTableName(Provider model)
+        public ActionResult getTableName(Provider model)
         {
+            // model = new Provider();
+            // string strDDLValue = form["ddlVendor"].ToString();
             var selected_table = model.selected_table_name;
             ViewBag.selected_tabela = selected_table;
             return View();
