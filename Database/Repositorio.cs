@@ -49,7 +49,7 @@ namespace app.Database
             using (MySqlConnection conn = GetConnection())  
         {  
             conn.Open();  
-            MySqlCommand cmd = new MySqlCommand("SELECT * FROM " + value, conn);  
+            MySqlCommand cmd = new MySqlCommand("SELECT * FROM projeto." + value, conn);  
     
             using (var reader = cmd.ExecuteReader())  
             {  

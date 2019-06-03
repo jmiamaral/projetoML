@@ -14,7 +14,7 @@ namespace app.Controllers
     public class FirstPageController : Controller
     {
         Repositorio rep;
-        Provider pro;
+        Provider pro = new Provider();
         
         public void setDbRep()
         {
@@ -24,7 +24,7 @@ namespace app.Controllers
 
         public ActionResult InvocarWS()
         {
-            pro = new Provider();
+            // pro = new Provider();
 
             listTableNames();
             // getTableName(pro);
@@ -41,15 +41,26 @@ namespace app.Controllers
             // var result = new SelectList(model.table_names);
             return View();
         }
+
         [HttpPost]
         public ActionResult getTableName(Provider model)
-        {
+        {            
             // model = new Provider();
             // string strDDLValue = form["ddlVendor"].ToString();
             var selected_table = model.selected_table_name;
             ViewBag.selected_tabela = selected_table;
-            return View();
+            return View(selected_table);
         }
+
+        // [HttpPost]
+        // public ActionResult getTableName(Provider model)
+        // {            
+        //     // model = new Provider();
+        //     // string strDDLValue = form["ddlVendor"].ToString();
+        //     var selected_table = model.selected_table_name;
+        //     ViewBag.selected_tabela = selected_table;
+        //     return Content(selected_table);
+        // }
 
         /* public ActionResult Edit(int id)
         {

@@ -16,6 +16,7 @@
 
         test = Request.Form["selected_table_name"].toString();
         alert("@ViewBag.selected_tabela");
+        ProductName: @Html.EditorFor(model => model.selected_table_name)
       }
 
       void Button_Click(Object Sender, EventArgs e) 
@@ -36,15 +37,15 @@
   <form id="validaURL" runat="server">
     <label class="control-label">URL:</label>
     <input type="text" id="url" placeholder="Web Service URL here"/>
-    <input type="submit" id="btnValida" Text="Submit" value="Validate" onserverclick="btnValida_Click"/>
+    <input type="submit" value="Validate" name="Validate" onserverclick="btnValida_Click" />
   </form>
 </div> 
 
 <div class="form-group">
-  <label class="control-label">Entity</label>
-  <select asp-for="selected_table_name" asp-items="@ViewBag.Entidades">
-    <option>Select entity</option>
-  </select>
-<p>@ViewBag.selected_tabela</p>
+  <form action="getTableName" method="post">
+    <label class="control-label">Entity</label>
+    <select asp-for="selected_table_name" asp-items="@ViewBag.Entidades"></select>
+    <input type="submit" value="selectTable"/>
+  </form>
 </div>
 </body>
