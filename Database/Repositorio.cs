@@ -63,11 +63,26 @@ namespace app.Database
         return columns;  
         }    
 
-        // public List<string> getDbData(String entity)
+        // public List<string> getColumnData(int column, string entity)
         // {
         //     List<string> entityColumns = getDbColumn(entity);
+        //     List<string> result = new List<string>();
 
+        //     using (MySqlConnection conn = GetConnection())  
+        // {  
+        //     conn.Open();  
+        //     MySqlCommand cmd = new MySqlCommand("select '" + entityColumns.get(column) + "' from projeto.'" + entity + "'" ,conn);  
 
+        //     using (var reader = cmd.ExecuteReader())  
+        //     {  
+        //         while (reader.Read())  
+        //         {  
+        //             var data = reader[entityColumns[column]].ToString();
+        //             result.Add(data);
+        //         }  
+        //     }  
+        // }  
+        // return result; 
 
         // }
     }    

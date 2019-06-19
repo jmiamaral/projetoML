@@ -20,6 +20,8 @@ namespace app.Models
         // public List<Entity> entity { get; set; } = new List<Entity>();
 
         public List<string> columns { get; set; } //lista dos dados referentes a bd
+        public List<string> fields { get; set; } //dados das colunas
+        public int columnNumber { get; set; }//numero de colunas da tabela
 
         public String column { get; set; }
         //public List<string, string> map {get; set; } //lista de dados mapeados

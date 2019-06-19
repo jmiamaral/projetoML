@@ -9,51 +9,53 @@
     var test = ""; -->
 }
 
-<script language="C#" runat="server">
+<!DOCTYPE html>
 
-      void btnValida_Click(Object sender, EventArgs e) 
-      {
-
-        test = Request.Form["selected_table_name"].toString();
-        alert("@ViewBag.selected_tabela");
-        ProductName: @Html.EditorFor(model => model.selected_table_name)
-      }
-
-      void Button_Click(Object Sender, EventArgs e) 
-      {
-         Label1.Text = Server.HtmlEncode(Text1.Text);
-      }
-
-</script>
-
-
-<head runat="server">
+<html>
+<head>
 <h2>@ViewBag.Title</h2>
 </head>
-
 <body>
+  <div class="row">
+    <form method="post">
+      <label class="control-label">URL: </label>
+      <input asp-for="url" placeholder="Web Service URL here"/>
 
-  <div>
-    <form id="validaURL" runat="server">
-      <label class="control-label">URL:</label>
-      <input type="text" id="url" placeholder="Web Service URL here"/>
-      <input type="submit" value="Validate" name="Validate" onserverclick="btnValida_Click" />
+      <label class="control-label">Entity: </label>
+      <select asp-for="selected_table_name" asp-items="@new SelectList(Model.table_names)">
+        <option>-- Select Entity --</option>
+      </select> 
+      <br/>
+
+      <div>
+        <form asp-action="getTablePost" asp-controller="FirstPage">
+          <input type="submit" value="Mapping" name="map">
+        </form>
+      <div>
+
+      <div>
+        <label class="control-label">coluna teste</label>
+        <select asp-for="column" asp-items="@new SelectList(Model.columns)">
+          <option>-- Select column --</option>
+        </select>
+      </div>
     </form>
   </div> 
 
-  <div class="form-group">
-    <form method="POST">
-      <label class="control-label">Entity</label>
-      <select asp-for="selected_table_name" asp-items="@new SelectList(Model.table_names)"></select>
-    </form>
   </div>
 
   <div class="form-group">
     <form method="GET">
       <label class="control-label">coluna teste</label>
-      <select asp-for="column" asp-items="@new SelectList(Model.columns)"></select>
+      <select asp-for="column" asp-items="@new SelectList(Model.columns)">
+      </select>
+      <p>@Model.columnNumber</p>
+      <p>@ViewBag.selected_tabela</p>
+      <p>@Model.url</p>
     </form>
   </div>
+
+</body>
 
 
   <!-- <script src="~wwwroot/lib/jquery/dist/jquery.min.js"></script>
@@ -61,5 +63,3 @@
   
 
   <!-- </script> -->
-
-</body>

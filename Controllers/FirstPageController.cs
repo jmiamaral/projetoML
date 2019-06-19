@@ -28,47 +28,49 @@ namespace app.Controllers
             model = new Provider();
 
             listTableNames();
-            getTablePost(model);
+            // getTablePost(model);
+            // teste();
             listColumns();
+            listDataTEST();
             return View(model);
         }
-        [HttpGet]
+        
         public void listTableNames()
         {
             model.table_names = rep.getTableNames();
         }
 
-        // [HttpPost]
-        // public ActionResult getTableName(Provider model)
-        // {            
-        //     // model = new Provider();
-        //     var selected_table = model.selected_table_name;
-        //     ViewBag.selected_tabela = selected_table;
-        //     return View(selected_table);
-        // }
-
         [HttpPost]
-        public void getTablePost(Provider model)
+        public ActionResult getTablePost(Provider model)
         {            
-            model = new Provider();
-            // var selected_table = model.selected_table_name;
+            listTableNames();
+            // model = new Provider();
+            var selected_table_name = model.selected_table_name;
+            var url = model.url;
             // model.columns = rep.getDbColumn(selected_table);
-            model.selected_table_name = Request.Query["selected_table_name"].ToString();
+            // model.selected_table_name = Request.Query["selected_table_name"].ToString();
             // var selected_table = Request.Query["selected_table_name"];
             // model.selected_table_name = selected_table;
-            // // ViewBag.selected_tabela = selected_table;
-            // return View(model);
+            // ViewBag.selected_tabela = model.selected_table_name;
+            return View(model);
         }
-
+        
         public void listColumns()
         {
-            setDbRep();
             var table = model.selected_table_name;
             // model.entity = rep.getDbColumn(table);
             // List<Entity> columns = new List<Entity>();
             // var getTable = Request.Form["selected_table_name"].ToString();
             // var columns = getTableName(getTable);
-            model.columns = rep.getDbColumn(model.selected_table_name);
+            model.columns = rep.getDbColumn(table);
+        }
+
+        public void listDataTEST()
+        {
+            var numColumns = rep.getDbColumn("entidade3").Count;
+            model.columnNumber = numColumns;
+            // var data = rep.getColumnData(0,"entidade2");
+            // model.fields = data;
         }
 
         /* public ActionResult Edit(int id)
