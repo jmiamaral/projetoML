@@ -41,9 +41,9 @@ namespace app.Controllers
         }
 
         [HttpPost]
-        public ActionResult getTablePost(Provider model)
+        public ActionResult getTablePost([FromBody]Provider model)
         {            
-            listTableNames();
+            // listTableNames();
             // model = new Provider();
             var selected_table_name = model.selected_table_name;
             var url = model.url;
@@ -52,7 +52,7 @@ namespace app.Controllers
             // var selected_table = Request.Query["selected_table_name"];
             // model.selected_table_name = selected_table;
             // ViewBag.selected_tabela = model.selected_table_name;
-            return View(model);
+            return Json(model);
         }
         
         public void listColumns()
