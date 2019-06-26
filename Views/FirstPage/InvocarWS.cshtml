@@ -17,35 +17,65 @@
 </head>
 <body>
   <div class="row">
-    <form asp-action="InvocarWS" asp-controller="FirstPage">
-      <label class="control-label">URL: </label>
-      <input asp-for="url" placeholder="Web Service URL here"/>
+    <form asp-action="InvocarWS" asp-controller="FirstPage" method="post">
+      <div class="form-group row">
+        <label class="control-label">URL: </label>
+        <input asp-for="url" placeholder="Web Service URL here"/>
 
-      <label class="control-label">Entity: </label>
-      <select asp-for="selected_table_name" asp-items="@new SelectList(Model.table_names)">
-      </select> 
-      <br/>
-
-      <div>
-        <form asp-action="getTablePost" method="post">
-          <input type="submit" value="Mapping" name="map">
-        </form>
-      <div>
-
-      <div>
-        <label class="control-label">coluna teste</label>
-        <select asp-for="column" asp-items="@new SelectList(Model.columns)">
-          <!-- <option>-- Select column --</option> -->
-        </select>
+        <label class="control-label">Entity: </label>
+        <select asp-for="selected_table_name" asp-items="@new SelectList(Model.table_names)">
+          <option>--Select Entity--</option>
+        </select> 
       </div>
-    </form>
-  </div> 
 
+      <div class="form-group">
+        <input type="submit" value="Mapping" name="map" id="map">
+      </div>
+      
+
+      <div class="form-group row">
+      @if (@Model.columns != null)
+      {
+        <h2>@Model.columnNumber</h2>
+        var idColumn = 0;
+        @for (var i = 0; i<@Model.columnNumber; i++)
+        {
+        <select asp-for="column" asp-items="@new SelectList(Model.columns)" id="column'@idColumn'">
+          <option>--Select Column--</option>
+        </select>
+        idColumn++;
+        <br/>
+        }
+      }
+    </div>
+
+    </form>
+    
+   
+
+  
+
+    
+ 
   </div>
 
 </body>
 
-
+<!-- <span id="msg" style="color:red;"/>   
+@section Scripts
+{
+  <script type="text/javascript">  
+    $('#mapa').click(function () {  
+        var form = $("#testForm") 
+        var url_ = form.attr("action"); 
+        var formData = form.serialize();  
+        $.post(url, formData, function (data) {  
+            $("#msg").html(data);  
+        });  
+    })  
+</script> 
+} -->
+ 
   <!-- <script src="~wwwroot/lib/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript"> -->
   
