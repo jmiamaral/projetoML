@@ -9,21 +9,26 @@ namespace app.Models
 {
     public class Provider
     {
-        
-
+        //relativo a ws
+        [Required]
         public String url { get; set; } //url referente ao WS
+        public String dataWs { get; set; } //resposta ws
+        public String validateResponse { get; set; }
+        public Boolean validResponse { get; set; }
+        public List<string> fields { get; set; } //campos do ws
 
+        //relativo a bd
+        [Required]
         public String selected_table_name { get; set; } //referencia entidade
-
         public List<string> table_names { get; set; } //tabelas
+        public int columnNumber { get; set; }//numero de colunas da tabela
+        public String column { get; set; }
+        public List<string> columns { get; set; } //colunas da tabela
 
         // public List<Entity> entity { get; set; } = new List<Entity>();
 
-        public List<string> columns { get; set; } //lista dos dados referentes a bd
-        public List<string> fields { get; set; } //dados das colunas
-        public int columnNumber { get; set; }//numero de colunas da tabela
-
-        public String column { get; set; }
+        // public List<string> fields { get; set; } //dados das colunas
+ 
         //public List<string, string> map {get; set; } //lista de dados mapeados
 
         // public struct Data

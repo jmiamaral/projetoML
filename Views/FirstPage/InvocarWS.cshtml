@@ -19,12 +19,13 @@
   <div class="row">
     <form asp-action="InvocarWS" asp-controller="FirstPage" method="post">
       <div class="form-group row">
+
         <label class="control-label">URL: </label>
         <input asp-for="url" placeholder="Web Service URL here"/>
 
         <label class="control-label">Entity: </label>
         <select asp-for="selected_table_name" asp-items="@new SelectList(Model.table_names)">
-          <option>--Select Entity--</option>
+          <option value = null>--Select Entity--</option>
         </select> 
       </div>
 
@@ -34,29 +35,31 @@
       
 
       <div class="form-group row">
-      @if (@Model.columns != null)
+      @if ((@Model.selected_table_name != null) && (@Model.url != null) && (@Model.validResponse == true))
       {
-        <h2>@Model.columnNumber</h2>
         var idColumn = 0;
-        @for (var i = 0; i<@Model.columnNumber; i++)
+        <!-- @for (var i = 0; i<@Model.columnNumber; i++)
         {
         <select asp-for="column" asp-items="@new SelectList(Model.columns)" id="column'@idColumn'">
           <option>--Select Column--</option>
         </select>
         idColumn++;
         <br/>
-        }
+        <p/>
+        } -->
+        <h1>Resposta @Model.validateResponse</h1>
+        <select asp-for="selected_table_name" asp-items="@new SelectList(Model.fields)">
+          <option value = null>--Select Entity--</option>
+        </select> 
+      }
+      else
+      {
+        <h2>@Model.validateResponse</h2>
       }
     </div>
 
     </form>
     
-   
-
-  
-
-    
- 
   </div>
 
 </body>
