@@ -15,7 +15,9 @@ namespace app.Models
         public String dataWs { get; set; } //resposta ws
         public String validateResponse { get; set; }
         public Boolean validResponse { get; set; }
-        public List<string> fields { get; set; } //campos do ws
+        public List<string> fieldsJson { get; set; } //campos do ws
+        public String[] teste { get; set; }
+
 
         //relativo a bd
         [Required]

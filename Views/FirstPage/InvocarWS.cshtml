@@ -48,9 +48,15 @@
         <p/>
         } -->
         <h1>Resposta @Model.validateResponse</h1>
-        <select asp-for="selected_table_name" asp-items="@new SelectList(Model.fields)">
-          <option value = null>--Select Entity--</option>
-        </select> 
+        <p>@Model.dataWs</p>
+        @foreach (var item in Model.fieldsJson)
+        {
+          <p>@item</p>
+          <select asp-for="column" asp-items="@new SelectList(Model.columns)" id="column'@idColumn'">
+            <option>--Select Column--</option>
+          </select>
+          idColumn++;
+        }
       }
       else
       {

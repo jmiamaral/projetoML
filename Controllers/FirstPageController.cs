@@ -136,10 +136,37 @@ namespace app.Controllers
 
         public void getFieldsJson(Provider model)
         {
+            // words.Trim('{','}');
+            // words.split(':');
+            // model.fields = words.ToList();
+            model.dataWs = model.dataWs.TrimStart('['); //apagar tudo na string anterior a '['
+            model.dataWs = model.dataWs.TrimEnd(']').Trim(); //apagar ']' do fim e espacos existentes
+            // model.dataWs.Trim(charsToTrim);
+            // model.dataWs.Trim(charsToTrim);
+            // model.dataWs = model.dataWs.Replace(" ", "");
+            // model.dataWs = model.dataWs.Trim( new Char[] { ' ', '[', ']' } );
+            model.teste = model.dataWs.Split("}", System.StringSplitOptions.RemoveEmptyEntries); //primeiro split pela '}' para separar os valores dos varios campos
+            var numberOfFields = model.teste[0].Split(",").Length; //numero de campos
+            var dataTrimmed = model.teste[0].TrimStart('{'); //apagar '{' do inicio da string
+            var dataSplit = dataTrimmed.Split(","); //separar cada campo numa string
             // data = model.url;
-            // var fields;
-            string[] words = model.dataWs.Split(':');
-            model.fields = words.ToList();
+            // var fields = model.dataWs.Split(new String[] {"}{"}, StringSplitOptions.RemoveEmptyEntries).Select(s=>s.Trim('{', '}')).Select(s=>s.Split(':'));
+            // model.fields = fields;
+            // char[] charsToTrim = { '[', '{', '}', ']', '\''};
+            // List<string> fields;
+            // var secondSplit = dataSplit[1].Split(":");
+            // var tete = secondSplit[0];
+            List<string> field = new List<string>();
+            for (var i = 0; i < numberOfFields; i++)
+            {
+                
+                var secondSplit = dataSplit[i].Split(":");
+                field.Add(secondSplit[0]);
+            }
+            model.fieldsJson = field;
+            // model.teste.
+            // model.teste = model.teste[0].Split(":");
+            // ViewBag.teste2 = tete;
 
         }
 
