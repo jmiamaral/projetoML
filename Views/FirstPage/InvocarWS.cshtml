@@ -38,24 +38,23 @@
       @if ((@Model.selected_table_name != null) && (@Model.url != null) && (@Model.validResponse == true))
       {
         var idColumn = 0;
-        <!-- @for (var i = 0; i<@Model.columnNumber; i++)
+        <!-- <h1>Resposta @Model.validateResponse</h1> --> //validacao json/xml
+        <!-- <p>@Model.dataWs</p> -->
+        <p>@ViewBag.teste</p>
+        @if(@Model.isJson) //entra se a resposta for formato json
         {
-        <select asp-for="column" asp-items="@new SelectList(Model.columns)" id="column'@idColumn'">
-          <option>--Select Column--</option>
-        </select>
-        idColumn++;
-        <br/>
-        <p/>
-        } -->
-        <h1>Resposta @Model.validateResponse</h1>
-        <p>@Model.dataWs</p>
-        @foreach (var item in Model.fieldsJson)
+          @foreach (var item in @Model.fieldsJson)
+          {
+            <label class="control-label">@item ------------> </label>
+            <select asp-for="columnsDB" asp-items="@new SelectList(Model.columns)">
+              <option value = null>--Select Column--</option>
+            </select>
+            <br/>
+          }
+        }
+        else if(@Model.isXml)
         {
-          <p>@item</p>
-          <select asp-for="column" asp-items="@new SelectList(Model.columns)" id="column'@idColumn'">
-            <option>--Select Column--</option>
-          </select>
-          idColumn++;
+          <p>to aqui</p>
         }
       }
       else
@@ -63,6 +62,25 @@
         <h2>@Model.validateResponse</h2>
       }
     </div>
+    
+    @if(@Model.mapButton)
+    {
+    <div>
+      <input type="submit" value="Result" name="Submit" id="result">
+    </div>
+    }
+   
+    @if(@Model.submitButton)
+    {
+      @if(@Model.counterRow > 1){
+        <p>@Model.counterRow rows affected</p>
+      }
+      else
+      {
+        <p>@Model.counterRow row affected</p>
+      }
+     
+    }
 
     </form>
     

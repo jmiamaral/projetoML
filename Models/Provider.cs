@@ -16,8 +16,15 @@ namespace app.Models
         public String validateResponse { get; set; }
         public Boolean validResponse { get; set; }
         public List<string> fieldsJson { get; set; } //campos do ws
-        public String[] teste { get; set; }
+        public List<string> dataJson { get; set; } //dados dos campos
+        public Boolean isJson { get; set; }
+        public Boolean isXml { get; set; }
+        public int numberTitles { get; set; } //numero titulos ex: "id" "title"
+        public List<string> columnsDB { get; set; }
 
+        public Boolean mapButton { get; set; } //estado butao map 
+        public Boolean submitButton { get; set; } //estado butao submit
+        
 
         //relativo a bd
         [Required]
@@ -26,24 +33,7 @@ namespace app.Models
         public int columnNumber { get; set; }//numero de colunas da tabela
         public String column { get; set; }
         public List<string> columns { get; set; } //colunas da tabela
-
-        // public List<Entity> entity { get; set; } = new List<Entity>();
-
-        // public List<string> fields { get; set; } //dados das colunas
- 
-        //public List<string, string> map {get; set; } //lista de dados mapeados
-
-        // public struct Data
-        // {
-        //     public Data(string str1Value, string str2Value)
-        //     {
-        //         string1 = str1Value;
-        //         string2 = str2Value;
-        //     }
-        //     public string string1 { get; set; }
-        //     public string string2 { get; set; }
-        // }
-        // public List<Data> map { get; set; }
+        public int counterRow { get; set; } //numero de rows afetadas
             
     }
 }

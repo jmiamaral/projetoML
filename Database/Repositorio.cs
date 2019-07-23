@@ -26,20 +26,20 @@ namespace app.Database
             List<string> table_names = new List<string>();
 
             using (MySqlConnection conn = GetConnection())  
-        {  
-            conn.Open();  
-            MySqlCommand cmd = new MySqlCommand("SELECT table_name FROM information_schema.tables where table_schema='projeto'", conn);  
-    
-            using (var reader = cmd.ExecuteReader())  
             {  
-                while (reader.Read())  
+                conn.Open();  
+                MySqlCommand cmd = new MySqlCommand("SELECT table_name FROM information_schema.tables where table_schema='projeto'", conn);  
+        
+                using (var reader = cmd.ExecuteReader())  
                 {  
-                    var val = reader["table_name"].ToString();
-                    table_names.Add(  val);
+                    while (reader.Read())  
+                    {  
+                        var val = reader["table_name"].ToString();
+                        table_names.Add(  val);
+                    }  
                 }  
             }  
-        }  
-        return table_names;  
+            return table_names;  
         }    
         
         public List<string> getDbColumn(String value)
@@ -47,43 +47,49 @@ namespace app.Database
             List<string> columns = new List<string>();
 
             using (MySqlConnection conn = GetConnection())  
-        {  
-            conn.Open();  
-            MySqlCommand cmd = new MySqlCommand("SELECT column_name FROM information_schema.columns where table_schema='projeto' and table_name = '" + value +"'" ,conn);  
-
-            using (var reader = cmd.ExecuteReader())  
             {  
-                while (reader.Read())  
+                conn.Open();  
+                MySqlCommand cmd = new MySqlCommand("SELECT column_name FROM information_schema.columns where table_schema='projeto' and table_name = '" + value +"'" ,conn);  
+
+                using (var reader = cmd.ExecuteReader())  
                 {  
-                    var column = reader["column_name"].ToString();
-                    columns.Add(column);
+                    while (reader.Read())  
+                    {  
+                        var column = reader["column_name"].ToString();
+                        columns.Add(column);
+                    }  
                 }  
             }  
-        }  
-        return columns;  
+            return columns;  
         }    
 
-        // public List<string> getColumnData(int column, string entity)
+        public int insertIntoDB(String table, String column, List<string> data)
+        {
+            var rowsAffected = 0;
+            using (MySqlConnection conn = GetConnection())  
+            {  
+                conn.Open();  
+                for(int value = 0; value < data.Count; value++)
+                {
+                    MySqlCommand cmd = new MySqlCommand("Insert Into projeto." + table + "(" + column + ") Values(" + data[value] + ")",conn);
+                    rowsAffected += cmd.ExecuteNonQuery(); 
+                }
+            }
+            return rowsAffected;
+        }
+
+        // public List<string> selectDB(string table)
         // {
-        //     List<string> entityColumns = getDbColumn(entity);
-        //     List<string> result = new List<string>();
+        //     List<string> data = new List<string>();
 
         //     using (MySqlConnection conn = GetConnection())  
-        // {  
-        //     conn.Open();  
-        //     MySqlCommand cmd = new MySqlCommand("select '" + entityColumns.get(column) + "' from projeto.'" + entity + "'" ,conn);  
-
-        //     using (var reader = cmd.ExecuteReader())  
         //     {  
-        //         while (reader.Read())  
-        //         {  
-        //             var data = reader[entityColumns[column]].ToString();
-        //             result.Add(data);
-        //         }  
-        //     }  
-        // }  
-        // return result; 
-
+        //         conn.Open();  
+                
+        //            MySqlCommand cmd = new MySqlCommand("Select * from projeto." + table ,conn);
+        //            cmd.ExecuteNonQuery(); 
+                
+        //     }
         // }
     }    
 }  
