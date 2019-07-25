@@ -63,16 +63,25 @@ namespace app.Database
             return columns;  
         }    
 
-        public int insertIntoDB(String table, String column, List<string> data)
+        public int insertIntoDB(String table, String[] columns, List<string> data)
         {
             var rowsAffected = 0;
+            int numberColumns = columns.Length;
+            String[] dataInsert = new String[numberColumns];
             using (MySqlConnection conn = GetConnection())  
             {  
                 conn.Open();  
                 for(int value = 0; value < data.Count; value++)
                 {
-                    MySqlCommand cmd = new MySqlCommand("Insert Into projeto." + table + "(" + column + ") Values(" + data[value] + ")",conn);
+                    for(int dataRow = 0; dataRow < numberColumns; dataRow++)
+                    {
+                        dataInsert[dataRow] = data[value++];
+                    }
+                    var teste1 = string.Join("," , columns);
+                    var teste2 = string.Join("," , dataInsert);
+                    MySqlCommand cmd = new MySqlCommand("Insert Into projeto." + table + "(" + teste1 + ") Values( " + teste2 + " )",conn);
                     rowsAffected += cmd.ExecuteNonQuery(); 
+                    value--;
                 }
             }
             return rowsAffected;

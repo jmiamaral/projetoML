@@ -48,7 +48,9 @@ namespace app.Controllers
             {
                 model.submitButton = true;
                 insertDB(model);
-                // rep.insertIntoDB("entidade2","id");
+                var teste1 = String.Join("," , model.dataJson);
+                ViewBag.teste = teste1;
+
             }
 
             return View(model);
@@ -170,7 +172,7 @@ namespace app.Controllers
                 for(var titles = 0; titles<numberTitles; titles++)
                 {
                     var datas = secondSplit[titles].Split(":");
-                    datas[1] = datas[1].Replace("\"","");
+                    // datas[1] = datas[1].Replace("\"","");
                     data.Add(datas[1]);
                 }
             }
@@ -179,27 +181,28 @@ namespace app.Controllers
         }
         public void insertDB(Provider model)
         {
-            var columnsSelected = model.columnsDB;
-            int counterColumn = 0; 
+            // var columnsSelected = model.columnsSelected;
+            // int counterColumn = 0; 
             var tableSelected = model.selected_table_name;
             int counterTitles = model.numberTitles;
             int counterRow = 0;
-            List<string> dataInserted = new List<string>();
+            // List<string> dataInserted = new List<string>();
             if(model.isJson)
-            {
-                var data = model.dataJson;
-                while(counterTitles > 0)
-                {
-                    dataInserted.Clear();
-                    for(int value = 0; value<data.Count; value+=model.numberTitles)
-                    {
-                        // var columnSelected = columnsSelected[counterColumn];
-                        dataInserted.Add(data[value]);
-                    }
-                    counterRow += rep.insertIntoDB(tableSelected, columnsSelected[counterColumn], dataInserted);
-                    counterColumn++;
-                    counterTitles--;
-                }
+            {      
+                counterRow += rep.insertIntoDB(tableSelected, model.columnsSelected, model.dataJson);
+
+                // var data = model.dataJson;
+                // while(counterTitles > 0)
+                // {
+                //     // dataInserted.Clear();
+                    // for(int value = 0; value<data.Count; value+=model.numberTitles)
+                    // {
+                    //     // var columnSelected = columnsSelected[counterColumn];
+                    //     dataInserted.Add(data[value]);
+                    // }
+                    // counterColumn++;
+                    // counterTitles--;
+                // }
                 model.counterRow = counterRow;
 
             }

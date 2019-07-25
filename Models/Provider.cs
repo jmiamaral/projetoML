@@ -20,7 +20,7 @@ namespace app.Models
         public Boolean isJson { get; set; }
         public Boolean isXml { get; set; }
         public int numberTitles { get; set; } //numero titulos ex: "id" "title"
-        public List<string> columnsDB { get; set; }
+        public String[] columnsSelected { get; set; }
 
         public Boolean mapButton { get; set; } //estado butao map 
         public Boolean submitButton { get; set; } //estado butao submit
