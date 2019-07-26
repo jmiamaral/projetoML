@@ -48,9 +48,6 @@ namespace app.Controllers
             {
                 model.submitButton = true;
                 insertDB(model);
-                var teste1 = String.Join("," , model.dataJson);
-                ViewBag.teste = teste1;
-
             }
 
             return View(model);
@@ -68,35 +65,36 @@ namespace app.Controllers
             string isSoap = "é soap";
             string invalid = "Resposta invalida json/xml";
 
-            using (var client = new HttpClient())
+            if(model.url != null)
             {
-                model.dataWs = client.GetAsync(model.url).Result.Content.ReadAsStringAsync().Result;
-            }
-            if (dataIsJson(model.dataWs))
-            {
-                model.validateResponse = isJson;
-                model.validResponse = true;
-                model.isJson = true;
-                model.isXml = false;
-                getFieldsJson(model);
-                getDataJson(model);
-                // model.validateResponse.Equals(isJson);
-
-            }
-            else if (dataIsXml(model.dataWs))
-            {
-                model.validateResponse = isSoap;
-                model.validResponse = true;
-                model.isJson = false;
-                model.isXml = true;
-            }
-            else if (!dataIsJson(model.dataWs) && !dataIsXml(model.dataWs))
-            {
-                model.validateResponse = invalid;
-                model.validResponse = false;
+                using (var client = new HttpClient())
+                {    
+                    model.dataWs = client.GetAsync(model.url).Result.Content.ReadAsStringAsync().Result;
+                }
+                if (dataIsJson(model.dataWs))
+                {
+                    model.validateResponse = isJson;
+                    model.validResponse = true;
+                    model.isJson = true;
+                    model.isXml = false;
+                    getFieldsJson(model);
+                    getDataJson(model);
+                }
+                else if (dataIsXml(model.dataWs))
+                {
+                    model.validateResponse = isSoap;
+                    model.validResponse = true;
+                    model.isJson = false;
+                    model.isXml = true;
+                }
+                else if (!dataIsJson(model.dataWs) && !dataIsXml(model.dataWs))
+                {
+                    model.validateResponse = invalid;
+                    model.validResponse = false;
+                }
             }
         }   
-
+        //validar formato json
         public Boolean dataIsJson(String data)
         {
             data = data.Trim();
@@ -118,6 +116,7 @@ namespace app.Controllers
                 return false;
             }
         }
+        //validar formato xml
         public Boolean dataIsXml(String data)
         {
             if (!string.IsNullOrEmpty(data) && data.TrimStart().StartsWith("<"))
@@ -137,7 +136,7 @@ namespace app.Controllers
                 return false;   
             }
         }
-
+        //obter campos
         public void getFieldsJson(Provider model)
         {
             model.dataWs = model.dataWs.TrimStart('['); //apagar tudo na string anterior a '['
@@ -157,7 +156,7 @@ namespace app.Controllers
             }
             model.fieldsJson = field;
         }
-
+        //obter valores dos campos
         public void getDataJson(Provider model)
         {
             var firstSplit = model.dataWs.Split("}", System.StringSplitOptions.RemoveEmptyEntries);
@@ -168,43 +167,27 @@ namespace app.Controllers
             {
                 var secondSplit = firstSplit[fields].Split(",", System.StringSplitOptions.RemoveEmptyEntries);
                 numberTitles = secondSplit.Length;
-
                 for(var titles = 0; titles<numberTitles; titles++)
                 {
                     var datas = secondSplit[titles].Split(":");
-                    // datas[1] = datas[1].Replace("\"","");
                     data.Add(datas[1]);
                 }
             }
             model.dataJson = data;
             model.numberTitles = numberTitles;
         }
+        //inserir na base de dados
         public void insertDB(Provider model)
         {
-            // var columnsSelected = model.columnsSelected;
-            // int counterColumn = 0; 
             var tableSelected = model.selected_table_name;
             int counterTitles = model.numberTitles;
             int counterRow = 0;
-            // List<string> dataInserted = new List<string>();
             if(model.isJson)
             {      
                 counterRow += rep.insertIntoDB(tableSelected, model.columnsSelected, model.dataJson);
-
-                // var data = model.dataJson;
-                // while(counterTitles > 0)
-                // {
-                //     // dataInserted.Clear();
-                    // for(int value = 0; value<data.Count; value+=model.numberTitles)
-                    // {
-                    //     // var columnSelected = columnsSelected[counterColumn];
-                    //     dataInserted.Add(data[value]);
-                    // }
-                    // counterColumn++;
-                    // counterTitles--;
-                // }
                 model.counterRow = counterRow;
-
+                model.dataFinal = rep.getDataFinal(tableSelected, model.columnNumber);
+                model.dataFinalCount = model.dataFinal.Count();
             }
         }
 

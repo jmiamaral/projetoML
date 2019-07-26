@@ -14,6 +14,14 @@
 <html>
 <head>
 <h2>@ViewBag.Title</h2>
+<style>
+table, th, td 
+{
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+</style>
 </head>
 <body>
   <div class="row">
@@ -40,29 +48,28 @@
         var idColumn = 0;
         <!-- <h1>Resposta @Model.validateResponse</h1> --> //validacao json/xml
         <!-- <p>@Model.dataWs</p> -->
-        <p>@ViewBag.teste</p>
         @if(@Model.isJson) //entra se a resposta for formato json
         {
           @foreach (var item in @Model.fieldsJson)
           {
             <label class="control-label">@item ------------> </label>
-            <select asp-for="columnsSelected" asp-items="@new SelectList(Model.columns)">
+            <select asp-for="columnsSelected" asp-items="@(new SelectList(Model.columns))">
             </select>
             <br/>
           }
         }
         else if(@Model.isXml)
         {
-          <p>to aqui</p>
+          <p>@Model.dataWs</p>
         }
       }
-      else
+      else if( (@Model.selected_table_name != null) || (@Model.url != null))
       {
-        <h2>@Model.validateResponse</h2>
+        <h2>selecionar ambos os campos</h2>
       }
     </div>
     
-    @if(@Model.mapButton)
+    @if(@Model.mapButton && @Model.selected_table_name != null)
     {
     <div>
       <input type="submit" value="Result" name="Submit" id="result">
@@ -71,9 +78,29 @@
    
     @if(@Model.submitButton)
     {
-      @if(@Model.counterRow > 1){
-        <p>@Model.counterRow rows affected</p>
-        <p>@ViewBag.teste</p>
+      
+      @if(@Model.counterRow > 1)
+      {
+        <p>@Model.counterRow rows affected on table @Model.selected_table_name :</p>
+        <table style="width:50%">
+          <tr>
+          @for(var column = 0; column < @Model.columnNumber; column++)
+          {
+            <th>@Model.columns[column]</th>
+          }
+          </tr>
+          @for(var row = 0; row < @Model.dataFinalCount; row+=0)
+          {
+            <tr>
+              @for(var value = 0; value < @Model.columnNumber; value++)
+              {
+              <td>@Model.dataFinal[row++]</td>
+              }
+            </tr>
+          }
+
+          </table>
+        
         
       }
       else
@@ -89,23 +116,4 @@
 
 </body>
 
-<!-- <span id="msg" style="color:red;"/>   
-@section Scripts
-{
-  <script type="text/javascript">  
-    $('#mapa').click(function () {  
-        var form = $("#testForm") 
-        var url_ = form.attr("action"); 
-        var formData = form.serialize();  
-        $.post(url, formData, function (data) {  
-            $("#msg").html(data);  
-        });  
-    })  
-</script> 
-} -->
- 
-  <!-- <script src="~wwwroot/lib/jquery/dist/jquery.min.js"></script>
-  <script type="text/javascript"> -->
-  
 
-  <!-- </script> -->

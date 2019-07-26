@@ -71,34 +71,55 @@ namespace app.Database
             using (MySqlConnection conn = GetConnection())  
             {  
                 conn.Open();  
-                for(int value = 0; value < data.Count; value++)
+                for(int value = 0; value < data.Count; value+=0)
                 {
                     for(int dataRow = 0; dataRow < numberColumns; dataRow++)
                     {
                         dataInsert[dataRow] = data[value++];
                     }
-                    var teste1 = string.Join("," , columns);
-                    var teste2 = string.Join("," , dataInsert);
-                    MySqlCommand cmd = new MySqlCommand("Insert Into projeto." + table + "(" + teste1 + ") Values( " + teste2 + " )",conn);
+                    var stringColumns = string.Join("," , columns);
+                    var stringData = string.Join("," , dataInsert);
+                    MySqlCommand cmd = new MySqlCommand("Insert Into projeto." + table + "(" + stringColumns + ") Values( " + stringData + " )",conn);
                     rowsAffected += cmd.ExecuteNonQuery(); 
-                    value--;
                 }
             }
             return rowsAffected;
         }
 
-        // public List<string> selectDB(string table)
-        // {
-        //     List<string> data = new List<string>();
+        public List<string> getDataFinal(string table, int countColumns)
+        {
+            List<string> result = new List<string>();
+            int count = 0;
 
-        //     using (MySqlConnection conn = GetConnection())  
-        //     {  
-        //         conn.Open();  
+            using (MySqlConnection conn = GetConnection())  
+            {  
+                conn.Open();  
                 
-        //            MySqlCommand cmd = new MySqlCommand("Select * from projeto." + table ,conn);
-        //            cmd.ExecuteNonQuery(); 
-                
-        //     }
-        // }
+                MySqlCommand cmd = new MySqlCommand("Select * from projeto." + table ,conn);
+
+                using (var reader = cmd.ExecuteReader())  
+                {  
+                    while (reader.Read())  
+                    {  
+                        count = 0;
+                        while (count < countColumns)
+                        {
+                            var data = reader[count].ToString();
+                            if(data == "")
+                            {
+                                result.Add("null");
+                            }
+                            else
+                            {
+                                result.Add(data);
+                            }
+                            count++;
+                        }
+                        
+                    }  
+                }              
+            }
+            return result;
+        }
     }    
 }  
