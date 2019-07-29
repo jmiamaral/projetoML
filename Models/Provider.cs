@@ -25,6 +25,7 @@ namespace app.Models
         public Boolean mapButton { get; set; } //estado butao map 
         public Boolean submitButton { get; set; } //estado butao submit
         
+        public List<string> teste { get; set; }
 
         //relativo a bd
         [Required]

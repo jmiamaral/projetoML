@@ -11,6 +11,7 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Xml.Linq;
+using System.Xml;
 
 namespace app.Controllers
 {
@@ -86,6 +87,7 @@ namespace app.Controllers
                     model.validResponse = true;
                     model.isJson = false;
                     model.isXml = true;
+                    getDataXml(model);
                 }
                 else if (!dataIsJson(model.dataWs) && !dataIsXml(model.dataWs))
                 {
@@ -136,7 +138,7 @@ namespace app.Controllers
                 return false;   
             }
         }
-        //obter campos
+        //obter campos json
         public void getFieldsJson(Provider model)
         {
             model.dataWs = model.dataWs.TrimStart('['); //apagar tudo na string anterior a '['
@@ -175,6 +177,32 @@ namespace app.Controllers
             }
             model.dataJson = data;
             model.numberTitles = numberTitles;
+        }
+        //obter campos xml
+        public void getDataXml(Provider model)
+        {
+            XmlDocument Doc = new XmlDocument();
+            var data = XDocument.Parse(model.dataWs);
+            Doc.LoadXml(model.dataWs);
+            // var teste = data.Elements(data.Elements().First().Name.LocalName);  
+            var elements = data.Root.DescendantNodes().OfType<XElement>().Select(x => x.Name);
+            var node = elements.First();
+            string no = node.ToString();
+            // string teste = node.ToString();
+            // string element = elements[0];
+            XmlNode nodes = Doc.GetElementsByTagName(no).Item(0);
+            var list = new List<string>();
+            //Loop through the child nodes
+            foreach (XmlNode item in nodes.ChildNodes)
+            {
+                if ((item).NodeType == XmlNodeType.Element)
+                {
+                    //Get the Element value here
+                    string value = ((item).FirstChild).Value;
+                    list.Add(value);
+                }        
+            }
+            ViewBag.teste = list;    
         }
         //inserir na base de dados
         public void insertDB(Provider model)

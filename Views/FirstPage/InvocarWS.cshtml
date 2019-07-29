@@ -61,6 +61,12 @@ table, th, td
         else if(@Model.isXml)
         {
           <p>@Model.dataWs</p>
+
+          @foreach (var item in @ViewBag.teste)
+          {
+            <p>@item</p>
+          }
+          <!-- <p>@ViewBag.teste</p> -->
         }
       }
       else if( (@Model.selected_table_name != null) || (@Model.url != null))
@@ -78,36 +84,32 @@ table, th, td
    
     @if(@Model.submitButton)
     {
-      
       @if(@Model.counterRow > 1)
       {
         <p>@Model.counterRow rows affected on table @Model.selected_table_name :</p>
-        <table style="width:50%">
-          <tr>
-          @for(var column = 0; column < @Model.columnNumber; column++)
-          {
-            <th>@Model.columns[column]</th>
-          }
-          </tr>
-          @for(var row = 0; row < @Model.dataFinalCount; row+=0)
-          {
-            <tr>
-              @for(var value = 0; value < @Model.columnNumber; value++)
-              {
-              <td>@Model.dataFinal[row++]</td>
-              }
-            </tr>
-          }
-
-          </table>
-        
-        
       }
       else
       {
-        <p>@Model.counterRow row affected</p>
+        <p>@Model.counterRow row affected on table @Model.selected_table_name :</p>
       }
-     
+
+      <table style="width:50%">
+        <tr>
+        @for(var column = 0; column < @Model.columnNumber; column++)
+        {
+          <th>@Model.columns[column]</th>
+        }
+        </tr>
+        @for(var row = 0; row < @Model.dataFinalCount; row+=0)
+        {
+          <tr>
+            @for(var value = 0; value < @Model.columnNumber; value++)
+            {
+            <td>@Model.dataFinal[row++]</td>
+            }
+          </tr>
+        }
+      </table> 
     }
 
     </form>
