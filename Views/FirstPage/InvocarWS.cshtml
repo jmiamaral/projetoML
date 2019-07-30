@@ -45,12 +45,11 @@ table, th, td
       <div class="form-group row">
       @if ((@Model.selected_table_name != null) && (@Model.url != null) && (@Model.validResponse == true))
       {
-        var idColumn = 0;
         <!-- <h1>Resposta @Model.validateResponse</h1> --> //validacao json/xml
         <!-- <p>@Model.dataWs</p> -->
-        @if(@Model.isJson) //entra se a resposta for formato json
+        @if(@Model.isJson || @Model.isXml) //entra se a resposta for formato json ou xml
         {
-          @foreach (var item in @Model.fieldsJson)
+          @foreach (var item in @Model.fieldsWs)
           {
             <label class="control-label">@item ------------> </label>
             <select asp-for="columnsSelected" asp-items="@(new SelectList(Model.columns))">
@@ -58,16 +57,7 @@ table, th, td
             <br/>
           }
         }
-        else if(@Model.isXml)
-        {
-          <p>@Model.dataWs</p>
-
-          @foreach (var item in @ViewBag.teste)
-          {
-            <p>@item</p>
-          }
-          <!-- <p>@ViewBag.teste</p> -->
-        }
+     
       }
       else if( (@Model.selected_table_name != null) || (@Model.url != null))
       {

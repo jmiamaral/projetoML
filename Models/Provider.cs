@@ -15,8 +15,8 @@ namespace app.Models
         public String dataWs { get; set; } //resposta ws
         public String validateResponse { get; set; }
         public Boolean validResponse { get; set; }
-        public List<string> fieldsJson { get; set; } //campos do ws
-        public List<string> dataJson { get; set; } //dados dos campos
+        public List<string> fieldsWs { get; set; } //campos do ws
+        public List<string> dataFieldWs { get; set; } //dados dos campos
         public Boolean isJson { get; set; }
         public Boolean isXml { get; set; }
         public int numberTitles { get; set; } //numero titulos ex: "id" "title"
