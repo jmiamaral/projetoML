@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Xml.Linq;
 using System.Xml;
+using System.Xml.XPath;
 
 namespace app.Controllers
 {
@@ -181,14 +182,10 @@ namespace app.Controllers
         //obter campos xml
         public void getDataXml(Provider model)
         {
-            XmlDocument Doc = new XmlDocument();
-            var data = XDocument.Parse(model.dataWs);
-            Doc.LoadXml(model.dataWs);
-            // var teste = data.Elements(data.Elements().First().Name.LocalName); 
-            // var root = Doc.root(); 
+            XDocument data = XDocument.Parse(model.dataWs);
             var elements = data.Root.DescendantNodes().OfType<XElement>().Select(x => x.Name).Distinct();
-            var node = elements.First();
-            string firstElement = node.ToString();
+            var root = elements.First();
+            string firstElement = root.ToString();
             var elements_ = data.Root.Element(firstElement).DescendantNodes().OfType<XElement>().Select(x => x.Name).Distinct();
             List<string> elementsModel = new List<string>();
             foreach(var i in elements_)
@@ -196,89 +193,51 @@ namespace app.Controllers
                 var eleString = i.ToString();
                 elementsModel.Add(eleString);
             }
-            model.fieldsWs = elementsModel;
-            // XmlNode root = Doc.FirstChild;
+            model.fieldsWs = elementsModel; //popular variavel com os campos
 
-    
-            // List<string> attributes = new List<string>();
-            // var list = new List<string>();
+            var descendants = data.Descendants(firstElement);
+            List<string> elementValue = new List<string>();
 
-            // List<XmlNode> nodes = new List<XmlNode>();
-            // XmlNode node = Doc.FirstChild;
-            // foreach (XmlElement n in node.ChildNodes)
-            // {
-            //     list.Add(n.ToString());
-            //     // XmlAttributeCollection atributos = n.Attributes;
-            //     // foreach (XmlAttribute at in atributos)
-            //     // {
-                    
-            //     // attributes.Add(at.Value);
-                    
-            //     // }
-            // }
-            
-            // ViewBag.teste = no;
-            // var nodes = Doc.GetElementsByTagName(no)[0];
-            // var teste = nodes.ChildNodes[0];
-            // var teste1 = teste.item[0];
-            // var list = new List<string>();
-            // int numb = root.ChildNodes.Count;;
-            // for (var i = 0; i < nodes.ChildNodes.Count; i++) 
-            // {
-            //     // var current = root.ChildNodes.item[i];
-            //     // list.Add(current);
-            //     numb++;
-            // }
-            // ViewBag.teste = root;
-            ViewBag.teste2 = elements_;    
-
-
-            //Loop through the child nodes
-            // foreach (XmlNode item in nodes.ChildNodes)
-            // {
-            //     if ((item).NodeType == XmlNodeType.Element)
-            //     {
-            //         //Get the Element value here
-            //         string value = ((item).FirstChild).Value;
-            //         list.Add(value);
-            //     }        
-            // }
-
-            // var names = new List<string>();
-            // var values = new List<string>();
-            // List<XNode> xNodes = data.DescendantNodes().ToList();
-
-            // foreach (XNode node in xNodes)
-            // {
-            //     XElement element = node as XElement;
-            //     values.Add(element.ToString());
-            //     // Dictionary<string, string> dict = new Dictionary<string, string>();
-
-            //     //For each orderProperty, get all attributes
-            //     // foreach (XAttribute attribute in element.Attributes())
-            //     // {
-            //     //     // dict.Add(attribute.Name.ToString(), attribute.Value);
-            //     //     // names.Add(attribute.Name.ToString());
-            //     //     values.Add(attribute.Value);
-            //     // }
-            //     // orderList.Add(dict);
-            // }
-
-            // ViewBag.teste = names;
+            foreach (var node in descendants) 
+            {
+                var children = node.Elements(); 
+                foreach (var child in children)
+                {
+                    elementValue.Add(child.Value.ToString());
+                }
+            }
+            for(var index = 0; index < elementValue.Count; index++)
+            {
+                 if (!isNumber(elementValue[index])) //entra se o valor nao for um inteiro
+                 {
+                     elementValue[index] = "\"" + elementValue[index] + "\""; //adicionar aspas para poder inserir na bd como string
+                 }
+            }
+            model.dataFieldWs = elementValue;
         }
+
+        // Retorna falso se encontrar algum carater alem de numeros else true 
+        static bool isNumber(string s) 
+        { 
+            for (int i = 0; i < s.Length; i++) 
+            if (char.IsDigit(s[i]) == false) 
+                return false; 
+    
+            return true; 
+        } 
+
         //inserir na base de dados
         public void insertDB(Provider model)
         {
             var tableSelected = model.selected_table_name;
             int counterTitles = model.numberTitles;
             int counterRow = 0;
-            if(model.isJson)
-            {      
-                counterRow += rep.insertIntoDB(tableSelected, model.columnsSelected, model.dataFieldWs);
-                model.counterRow = counterRow;
-                model.dataFinal = rep.getDataFinal(tableSelected, model.columnNumber);
-                model.dataFinalCount = model.dataFinal.Count();
-            }
+            
+            counterRow += rep.insertIntoDB(tableSelected, model.columnsSelected, model.dataFieldWs);
+            model.counterRow = counterRow;
+            model.dataFinal = rep.getDataFinal(tableSelected, model.columnNumber);
+            model.dataFinalCount = model.dataFinal.Count();
+            
         }
 
     }

@@ -56,6 +56,10 @@ table, th, td
             </select>
             <br/>
           }
+          @foreach (var i in @Model.dataFieldWs)
+          {
+            <p>@i</p>
+          }
         }
      
       }
