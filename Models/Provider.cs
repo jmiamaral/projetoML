@@ -24,6 +24,10 @@ namespace app.Models
 
         public Boolean mapButton { get; set; } //estado butao map 
         public Boolean submitButton { get; set; } //estado butao submit
+        [Required]
+        public string selected_radio { get; set; } //protocolo escolhido
+        public String[] protocols = new[] {"rest", "soap"}; //possiveis escolhas
+
         
         public List<string> teste { get; set; }
 

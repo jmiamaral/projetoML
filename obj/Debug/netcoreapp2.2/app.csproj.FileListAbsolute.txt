@@ -29,3 +29,4 @@
 /home/jmiamaral/projeto/app/obj/Debug/netcoreapp2.2/app.dll
 /home/jmiamaral/projeto/app/obj/Debug/netcoreapp2.2/app.pdb
 /home/jmiamaral/projeto/app/obj/Debug/netcoreapp2.2/app.csproj.CopyComplete
+/home/jmiamaral/projeto/app/obj/Debug/netcoreapp2.2/Razor/Views/FirstPage/GerarWS.g.cshtml.cs

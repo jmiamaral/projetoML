@@ -1,16 +1,11 @@
 
 @model app.Models.Provider;
 @{
-    ViewBag.Title = "Evoke existing Web Service";
-    <!-- var entidades = ViewBag.Entidades; -->
-    //Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Evoke existing Web Service";  
     Layout = "";
-    <!-- var valueEntidade = " ";
-    var test = ""; -->
 }
 
 <!DOCTYPE html>
-
 <html>
 <head>
 <h2>@ViewBag.Title</h2>
@@ -40,8 +35,7 @@ table, th, td
       <div class="form-group">
         <input type="submit" value="Mapping" name="map" id="map">
       </div>
-      
-
+    
       <div class="form-group row">
       @if ((@Model.selected_table_name != null) && (@Model.url != null) && (@Model.validResponse == true))
       {
@@ -55,10 +49,6 @@ table, th, td
             <select asp-for="columnsSelected" asp-items="@(new SelectList(Model.columns))">
             </select>
             <br/>
-          }
-          @foreach (var i in @Model.dataFieldWs)
-          {
-            <p>@i</p>
           }
         }
      
@@ -105,11 +95,9 @@ table, th, td
         }
       </table> 
     }
-
-    </form>
-    
+    </form>   
   </div>
-
 </body>
+</html>
 
 

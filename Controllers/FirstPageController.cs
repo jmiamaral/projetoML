@@ -55,6 +55,27 @@ namespace app.Controllers
             return View(model);
         }
 
+        public ActionResult GerarWS()
+        {
+            setDbRep();
+            model = new Provider();
+            listTableNames(model);
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult GerarWS(Provider model, string rest)
+        {         
+            setDbRep();
+            listTableNames(model);
+            model.mapButton = true;
+            // if(!string.IsNullOrEmpty(rest))
+            // {
+            //     model.selected_radio_rest = true;
+            // }
+            
+            return View(model);
+        }
+
         //lista dos nomes das tabelas na bd
         public void listTableNames(Provider model)
         {
