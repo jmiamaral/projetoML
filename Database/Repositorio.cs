@@ -20,7 +20,7 @@ namespace app.Database
             return new MySqlConnection(ConnectionString);    
         }
 
-        
+        //obter nomes das tabelas
         public List<string> getTableNames()
         {
             List<string> table_names = new List<string>();
@@ -41,15 +41,15 @@ namespace app.Database
             }  
             return table_names;  
         }    
-        
-        public List<string> getDbColumn(String value)
+        //obter colunas da bd
+        public List<string> getDbColumn(String table)
         {
             List<string> columns = new List<string>();
 
             using (MySqlConnection conn = GetConnection())  
             {  
                 conn.Open();  
-                MySqlCommand cmd = new MySqlCommand("SELECT column_name FROM information_schema.columns where table_schema='projeto' and table_name = '" + value +"'" ,conn);  
+                MySqlCommand cmd = new MySqlCommand("SELECT column_name FROM information_schema.columns where table_schema='projeto' and table_name = '" + table +"'" ,conn);  
 
                 using (var reader = cmd.ExecuteReader())  
                 {  
@@ -62,7 +62,7 @@ namespace app.Database
             }  
             return columns;  
         }    
-
+        //inserir dados na tabela
         public int insertIntoDB(String table, String[] columns, List<string> data)
         {
             var rowsAffected = 0;
@@ -86,6 +86,8 @@ namespace app.Database
             return rowsAffected;
         }
 
+
+        //obter dados de uma tabela
         public List<string> getDataFinal(string table, int countColumns)
         {
             List<string> result = new List<string>();

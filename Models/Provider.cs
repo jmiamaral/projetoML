@@ -21,11 +21,14 @@ namespace app.Models
         public Boolean isXml { get; set; }
         public int numberTitles { get; set; } //numero titulos ex: "id" "title"
         public String[] columnsSelected { get; set; }
+        public String dataFormatJson { get; set; } //dados em formato json
+        public List<string> dataFormatJsonList { get; set; } //dados em formato json em lista
+        public String dataFormatXml { get; set; } //dados em formato xml
 
         public Boolean mapButton { get; set; } //estado butao map 
         public Boolean submitButton { get; set; } //estado butao submit
         [Required]
-        public string selected_radio { get; set; } //protocolo escolhido
+        public string selected_protocol { get; set; } //protocolo escolhido
         public String[] protocols = new[] {"rest", "soap"}; //possiveis escolhas
 
         

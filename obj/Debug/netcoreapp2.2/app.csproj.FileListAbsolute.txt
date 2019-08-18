@@ -14,7 +14,6 @@
 /home/jmiamaral/projeto/app/obj/Debug/netcoreapp2.2/app.TagHelpers.input.cache
 /home/jmiamaral/projeto/app/obj/Debug/netcoreapp2.2/app.TagHelpers.output.cache
 /home/jmiamaral/projeto/app/obj/Debug/netcoreapp2.2/app.RazorCoreGenerate.cache
-/home/jmiamaral/projeto/app/obj/Debug/netcoreapp2.2/Razor/Views/FirstPage/InvocarWS.g.cshtml.cs
 /home/jmiamaral/projeto/app/obj/Debug/netcoreapp2.2/Razor/Views/Home/Index.g.cshtml.cs
 /home/jmiamaral/projeto/app/obj/Debug/netcoreapp2.2/Razor/Views/Home/Privacy.g.cshtml.cs
 /home/jmiamaral/projeto/app/obj/Debug/netcoreapp2.2/Razor/Views/Shared/Error.g.cshtml.cs
@@ -29,4 +28,5 @@
 /home/jmiamaral/projeto/app/obj/Debug/netcoreapp2.2/app.dll
 /home/jmiamaral/projeto/app/obj/Debug/netcoreapp2.2/app.pdb
 /home/jmiamaral/projeto/app/obj/Debug/netcoreapp2.2/app.csproj.CopyComplete
-/home/jmiamaral/projeto/app/obj/Debug/netcoreapp2.2/Razor/Views/FirstPage/GerarWS.g.cshtml.cs
+/home/jmiamaral/projeto/app/obj/Debug/netcoreapp2.2/Razor/Views/Projeto/GerarWS.g.cshtml.cs
+/home/jmiamaral/projeto/app/obj/Debug/netcoreapp2.2/Razor/Views/Projeto/InvocarWS.g.cshtml.cs
