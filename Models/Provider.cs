@@ -31,9 +31,6 @@ namespace app.Models
         public string selected_protocol { get; set; } //protocolo escolhido
         public String[] protocols = new[] {"rest", "soap"}; //possiveis escolhas
 
-        
-        public List<string> teste { get; set; }
-
         //relativo a bd
         [Required]
         public String selected_table_name { get; set; } //referencia entidade
@@ -44,6 +41,13 @@ namespace app.Models
         public int counterRow { get; set; } //numero de rows afetadas
         public List<string> dataFinal {get; set; } //dados atualizados
         public int dataFinalCount {get; set; }//numero total de valores na tabela
+
+        public InvokeWsProvider InvokeWsProvider { get; set;}
             
+    }
+    public class InvokeWsProvider
+    {
+        public String teste { get; set;}
+
     }
 }
