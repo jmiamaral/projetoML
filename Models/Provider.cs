@@ -41,13 +41,5 @@ namespace app.Models
         public int counterRow { get; set; } //numero de rows afetadas
         public List<string> dataFinal {get; set; } //dados atualizados
         public int dataFinalCount {get; set; }//numero total de valores na tabela
-
-        public InvokeWsProvider InvokeWsProvider { get; set;}
-            
-    }
-    public class InvokeWsProvider
-    {
-        public String teste { get; set;}
-
     }
 }
