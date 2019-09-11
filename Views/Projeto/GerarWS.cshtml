@@ -1,0 +1,68 @@
+@model app.Models.Provider;
+@{
+    ViewBag.Title = "Generate Web Service from Entity";  
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+<h2>@ViewBag.Title</h2>
+<style>
+    div.box{
+        width: 600px;
+        border: 4px solid black;
+        padding: 50px;
+        margin: 5px;
+    }
+</style>
+</head>
+<body>
+    <div class="row">
+        <form asp-action="GerarWS" asp-controller="Projeto" method="post">
+        <div class="form-group row">
+            <label class="control-label">Entity: </label>
+            <select asp-for="selected_table_name" asp-items="@new SelectList(Model.table_names)">
+            <option value = null>--Select Entity--</option>
+            </select> 
+        </div>
+        <br>
+        <div class="form-group row">
+            @foreach (var protocol in Model.protocols)
+            {
+                <input type="radio" asp-for="selected_protocol" value="@protocol"/>@protocol
+            }
+        </div>
+        <br>
+        <div class="form-group">
+            <input type="submit" value="submit">
+        </div>
+        @if((@Model.selected_table_name == null || @Model.selected_protocol == null) && @Model.submitButton)
+        {
+            <h2>Select both entity and protocol fields!</h2>
+        }
+        <div class = "box">
+            @if(@Model.submitButton && @Model.selected_table_name != null && @Model.selected_protocol != null)
+            {
+                
+                <!-- <p>URL: https://localhost/Projeto/GerarWS/@Model.selected_table_name/@Model.selected_protocol</p> -->
+                <a href>https://localhost/Projeto/GerarWS/@Model.selected_table_name/@Model.selected_protocol</a>
+                <!-- <p>@Model.dataFormatJson</p> -->
+                if(@Model.isJson)
+                {
+                    foreach(var item in @Model.dataFormatJsonList)
+                    {
+                        <p>@item</p>
+                    }
+                }
+                if(@Model.isXml)
+                {
+                    <p>@Model.dataFormatXml</p>
+                }
+                
+            }
+        </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+
+@model app.Models.Provider;
+@{
+    ViewBag.Title = "Evoke existing Web Service";  
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+<h2>@ViewBag.Title</h2>
+<style>
+table, th, td 
+{
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+</style>
+</head>
+<body>
+  <div class="row">
+    <form asp-action="InvocarWS" asp-controller="Projeto" method="post">
+      <div class="form-group row">
+
+        <label class="control-label">URL: </label>
+        <input asp-for="url" placeholder="Web Service URL here"/>
+
+        <label class="control-label">Entity: </label>
+        <select asp-for="selected_table_name" asp-items="@new SelectList(Model.table_names)">
+          <option value = null>--Select Entity--</option>
+        </select> 
+      </div>
+      <br>
+      <div class="form-group">
+        <input type="submit" value="Mapping" name="map" id="map">
+      </div>
+    
+      <div class="form-group row">
+      @if ((@Model.selected_table_name != null) && (@Model.url != null) && (@Model.validResponse == true))
+      {
+        <!-- <h1>Resposta @Model.validateResponse</h1> --> //validacao json/xml
+        <!-- <p>@Model.dataWs</p> -->
+        @if(@Model.isJson || @Model.isXml) //entra se a resposta for formato json ou xml
+        {
+          @foreach (var item in @Model.fieldsWs)
+          {
+            <br/>
+            <label class="control-label">@item ------------> </label>
+            <select asp-for="columnsSelected" asp-items="@(new SelectList(Model.columns))">
+              <option value = null>--Select Entity--</option>
+            </select>
+            <br/>
+          }
+        }
+     
+      }
+      else if( ((@Model.selected_table_name == null) || (@Model.url == null)) && @Model.mapButton)
+      {
+        <h2>Fill url field and select an entity!</h2>
+      }
+    </div>
+    
+    @if(@Model.mapButton && @Model.selected_table_name != null && @Model.url != null)
+    {
+      <br/>
+    <div>
+      <input type="submit" value="Result" name="Submit" id="result">
+    </div>
+    }
+    @if(@Model.submitButton)
+    {
+      @if(@Model.counterRow > 1)
+      {
+        <p>@Model.counterRow rows affected on table @Model.selected_table_name :</p>
+      }
+      else
+      {
+        <p>@Model.counterRow row affected on table @Model.selected_table_name :</p>
+      }
+
+      <table style="width:50%">
+        <tr>
+        @for(var column = 0; column < @Model.columnNumber; column++)
+        {
+          <th>@Model.columns[column]</th>
+        }
+        </tr>
+        @for(var row = 0; row < @Model.dataFinalCount; row+=0)
+        {
+          @if(row >= (@Model.dataFinalCount - @Model.counterRow * @Model.columnNumber))
+          {
+            <tr>
+              @for(var value = 0; value < @Model.columnNumber; value++)
+              {
+              <th>@Model.dataFinal[row++]</th>
+              }
+            </tr>
+          }
+          else
+          {
+            <tr>
+              @for(var value = 0; value < @Model.columnNumber; value++)
+              {
+              <td>@Model.dataFinal[row++]</td>
+              }
+            </tr>  
+          }
+         
+        }
+      </table> 
+    }
+    </form>   
+  </div>
+</body>
+</html>
+
+
